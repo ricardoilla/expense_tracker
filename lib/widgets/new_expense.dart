@@ -2,7 +2,10 @@ import 'package:expense_tracker/models/expenses.dart';
 import 'package:flutter/material.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  const NewExpense({super.key, required this.onAddExpense});
+  //To add expenses to the list, this class must receive
+  //the following funtion as parameter:
+  final void Function(Expense newExpense) onAddExpense;
 
   @override
   State<StatefulWidget> createState() {
@@ -51,13 +54,22 @@ class _NewExpensesState extends State<NewExpense> {
         ),
       );
       return;
+    } else {
+      //to access the method onAddExpense, must be used the widget property
+      widget.onAddExpense(Expense(
+        title: _titleController.text,
+        amount: enteredAmount,
+        date: _selectedDate!, //we are sure this wont be null
+        category: _selectedCategory,
+      ));
+      Navigator.pop(context);//Ensure its closed
     }
   }
 
   @override
   void dispose() {
     _titleController
-        .dispose(); //Important, when the controller is not needed anymore
+        .dispose(); //Important, when the controllers are not needed anymore
     _amountController.dispose();
     super.dispose();
   }
@@ -65,7 +77,7 @@ class _NewExpensesState extends State<NewExpense> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
       child: Column(children: [
         TextField(
           controller: _titleController,
