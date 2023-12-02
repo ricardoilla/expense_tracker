@@ -1,3 +1,4 @@
+import 'package:expense_tracker/widgets/chart/chart.dart';
 import 'package:expense_tracker/widgets/expenses_list/expenses_list.dart';
 import 'package:expense_tracker/models/expenses.dart';
 import 'package:expense_tracker/widgets/new_expense.dart';
@@ -74,7 +75,7 @@ class _ExpensesState extends State<Expenses> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Expense Tracker'),
-        backgroundColor: const Color.fromARGB(255, 76, 86, 175),
+        //backgroundColor: const Color.fromARGB(255, 76, 86, 175),
         actions: [
           IconButton(
               onPressed: _openAddExpenseOverlay, icon: const Icon(Icons.add))
@@ -83,7 +84,7 @@ class _ExpensesState extends State<Expenses> {
       body: Column(
         children: [
           //Toolbar with the add button => Row()
-          const Text('The chart'),
+          Chart(expenses: _registeredExpenses,),
           Expanded(child: mainContent) //Expanded to view column inside column
         ],
       ),

@@ -21,6 +21,12 @@ class ExpensesList extends StatelessWidget {
       itemBuilder: (ctx, index) => Dismissible(
           //to allow slide and delete the items
           key: ValueKey(expenses[index]),
+          background: Container(
+            color: Theme.of(context).colorScheme.error.withOpacity(0.3),
+            margin: EdgeInsets.symmetric(
+              horizontal: Theme.of(context).cardTheme.margin!.horizontal
+            ),
+            ),
           onDismissed: (direction) {
             onRemoveExpense(expenses[index]);
           },
