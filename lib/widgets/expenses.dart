@@ -31,6 +31,7 @@ class _ExpensesState extends State<Expenses> {
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+      useSafeArea: true,//make sure stay away from camera
       isScrollControlled:
           true, //to ensure the keyboard does not overlap information
       context: context,
@@ -59,11 +60,14 @@ class _ExpensesState extends State<Expenses> {
                 _registeredExpenses.insert(expenseIndex, expense);
               });
             }),
-        content: Text('Expense deleted.')));
+        content: const Text('Expense deleted.')));
   }
 
   @override
   Widget build(BuildContext context) {
+    //Reponsive content
+    final width = MediaQuery.of(context).size.width;
+
     Widget mainContent =
         const Center(child: Text('No expenses found. Start adding some!'));
     if (_registeredExpenses.isNotEmpty) {
@@ -81,13 +85,24 @@ class _ExpensesState extends State<Expenses> {
               onPressed: _openAddExpenseOverlay, icon: const Icon(Icons.add))
         ],
       ),
-      body: Column(
+      body: width < 600 //[RESPONSIVE] column or row depending of device orientation
+      ? Column(
         children: [
           //Toolbar with the add button => Row()
-          Chart(expenses: _registeredExpenses,),
+          Chart(
+            expenses: _registeredExpenses,
+          ),
           Expanded(child: mainContent) //Expanded to view column inside column
         ],
-      ),
+        ) 
+      : Row(children: [
+        Expanded(
+          child: Chart(
+              expenses: _registeredExpenses,
+            ),
+        ),
+          Expanded(child: mainContent)
+      ],),
     );
   }
 }
